@@ -4,12 +4,28 @@
 //  Created by Melo Yao on 3/22/15.
 //
 
+/* This disables two things:
+   1) error 4503 where MSVC complains about
+      decorated names being too long. There's no way around
+      this.
+   2) We also disable a security error triggered by
+      websocketpp not using checked iterators.
+*/
+#ifdef _MSC_VER
+#pragma warning(disable : 4503)
+#define _SCL_SECURE_NO_WARNINGS
+#endif
+
+/* For this code, we will use standalone ASIO
+   and websocketpp in C++11 mode only */
+#define ASIO_STANDALONE
+#define _WEBSOCKETPP_CPP11_STL_
+
 #include "sio_packet.h"
 #include <rapidjson/document.h>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/writer.h>
 #include <cassert>
-#include <boost/lexical_cast.hpp>
 
 #define kBIN_PLACE_HOLDER "_placeholder"
 
@@ -288,7 +304,7 @@ namespace sio
             pos++;
             if (_type == type_binary_event || _type == type_binary_ack) {
                 size_t score_pos = payload_ptr.find('-');
-                _pending_buffers = boost::lexical_cast<unsigned>(payload_ptr.substr(pos,score_pos - pos));
+                _pending_buffers = std::stoul(payload_ptr.substr(pos,score_pos - pos));
                 pos = score_pos+1;
             }
         }
@@ -328,7 +344,7 @@ namespace sio
 
         if(pos<json_pos)//we've got pack id.
         {
-            _pack_id = boost::lexical_cast<int>(payload_ptr.substr(pos,json_pos - pos));
+            _pack_id = std::stoi(payload_ptr.substr(pos,json_pos - pos));
         }
         if (_frame == frame_message && (_type == type_binary_event || _type == type_binary_ack)) {
             //parse later when all buffers are arrived.

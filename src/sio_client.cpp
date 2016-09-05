@@ -4,11 +4,27 @@
 //  Created by Melo Yao on 3/25/15.
 //
 
+/* This disables two things:
+   1) error 4503 where MSVC complains about
+      decorated names being too long. There's no way around
+      this.
+   2) We also disable a security error triggered by
+      websocketpp not using checked iterators.
+*/
+#ifdef _MSC_VER
+#pragma warning(disable : 4503)
+#define _SCL_SECURE_NO_WARNINGS
+#endif
+
+/* For this code, we will use standalone ASIO
+   and websocketpp in C++11 mode only */
+#define ASIO_STANDALONE
+#define _WEBSOCKETPP_CPP11_STL_
+
 #include "sio_client.h"
 #include "internal/sio_client_impl.h"
 
 using namespace websocketpp;
-using boost::posix_time::milliseconds;
 using std::stringstream;
 
 namespace sio
@@ -17,32 +33,32 @@ namespace sio
         m_impl(new client_impl())
     {
     }
-    
+
     client::~client()
     {
         delete m_impl;
     }
-    
+
     void client::set_open_listener(con_listener const& l)
     {
         m_impl->set_open_listener(l);
     }
-    
+
     void client::set_fail_listener(con_listener const& l)
     {
         m_impl->set_fail_listener(l);
     }
-    
+
     void client::set_close_listener(close_listener const& l)
     {
         m_impl->set_close_listener(l);
     }
-    
+
     void client::set_socket_open_listener(socket_listener const& l)
     {
         m_impl->set_socket_open_listener(l);
     }
-    
+
     void client::set_reconnect_listener(reconnect_listener const& l)
     {
         m_impl->set_reconnect_listener(l);
@@ -57,12 +73,12 @@ namespace sio
     {
         m_impl->set_socket_close_listener(l);
     }
-    
+
     void client::clear_con_listeners()
     {
         m_impl->clear_con_listeners();
     }
-    
+
     void client::clear_socket_listeners()
     {
         m_impl->clear_socket_listeners();
@@ -78,28 +94,28 @@ namespace sio
     {
         m_impl->connect(uri, query);
     }
-    
+
     socket::ptr const& client::socket(const std::string& nsp)
     {
         return m_impl->socket(nsp);
     }
-    
+
     // Closes the connection
     void client::close()
     {
         m_impl->close();
     }
-    
+
     void client::sync_close()
     {
         m_impl->sync_close();
     }
-    
+
     bool client::opened() const
     {
         return m_impl->opened();
     }
-    
+
     std::string const& client::get_sessionid() const
     {
         return m_impl->get_sessionid();
@@ -119,5 +135,5 @@ namespace sio
     {
         m_impl->set_reconnect_delay_max(millis);
     }
-    
+
 }
