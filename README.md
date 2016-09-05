@@ -7,13 +7,17 @@ By virtue of being written in C++, this client works in several different platfo
 
 ## Features
 
-- 100% written in modern C++11
+- 110% written in modern C++11
+- Uses the excellent [websocketpp](https://github.com/zaphoyd/websocketpp)
+library in C++11 mode even on Windows.
 - Compatible with socket.io 1.0+ protocol
 - Binary support
 - Automatic JSON encoding
 - Multiplex support
 - Similar API to the Socket.IO JS client
 - Cross platform
+- Uses [ASIO Standalone](http://think-async.com/Asio/AsioStandalone) - no need
+to include a dependency on boost.
 
 ## Installation alternatives
 
