@@ -22,6 +22,7 @@ set(SIO_INCLUDEDIR ${CMAKE_CURRENT_LIST_DIR})
 
 add_library(sioclient ${ALL_SRC})
 target_include_directories(sioclient PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src
+    ${CMAKE_CURRENT_LIST_DIR}/lib/asio/asio/include
     ${CMAKE_CURRENT_LIST_DIR}/lib/websocketpp
     ${CMAKE_CURRENT_LIST_DIR}/lib/rapidjson/include
 )
@@ -42,6 +43,7 @@ find_package(OpenSSL)
 if(OPENSSL_FOUND)
 add_library(sioclient_tls ${ALL_SRC})
 target_include_directories(sioclient_tls PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src
+    ${CMAKE_CURRENT_LIST_DIR}/lib/asio/asio/include
     ${CMAKE_CURRENT_LIST_DIR}/lib/websocketpp
     ${CMAKE_CURRENT_LIST_DIR}/lib/rapidjson/include
     ${OPENSSL_INCLUDE_DIR}

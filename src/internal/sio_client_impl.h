@@ -182,7 +182,7 @@ namespace sio
         void clear_timers();
 
         #if SIO_TLS
-        typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
+        typedef websocketpp::lib::shared_ptr<asio::ssl::context> context_ptr;
 
         context_ptr on_tls_init(connection_hdl con);
         #endif
