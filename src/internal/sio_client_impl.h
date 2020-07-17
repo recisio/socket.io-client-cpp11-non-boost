@@ -16,8 +16,12 @@
 
 /* For this code, we will use standalone ASIO
    and websocketpp in C++11 mode only */
+#ifndef ASIO_STANDALONE
 #define ASIO_STANDALONE
+#endif // ASIO_STANDALONE
+#ifndef _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_STL_
+#endif // _WEBSOCKETPP_CPP11_STL_
 
 #include <cstdint>
 #define INTIALIZER(__TYPE__)
