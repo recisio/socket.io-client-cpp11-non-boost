@@ -75,3 +75,7 @@ install(TARGETS ${TARGET_LIBRARIES}
 install(FILES ${Boost_LIBRARIES}
     DESTINATION "${CMAKE_CURRENT_LIST_DIR}/build/lib/${CMAKE_BUILD_TYPE}"
 )
+
+if (MSVC) 
+    target_precompile_headers(sioclient PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/src/Precompiled.hpp>")
+endif()
